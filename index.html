@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>抽小螃蟹 · 被 Claude 气死了就来抽它</title>
-<meta name="description" content="被 Claude 气死了？点一下抽 Claude Code 小螃蟹一鞭解气。藤条、皮鞭、铁链、带刺鞭、电鞭，按生气程度选。Angry at Claude? Whip the Claude Code crab to vent.">
+<meta name="description" content="被 Claude 气死了？点一下抽 Claude Code 小螃蟹一鞭解气。藤条、皮鞭、铁链、带刺鞭、电鞭、SM皮鞭，按生气程度选。Angry at Claude? Whip the Claude Code crab to vent.">
 <meta property="og:title" content="抽小螃蟹 · 被 Claude 气死了就来抽它">
 <meta property="og:description" content="点一下抽 Claude Code 小螃蟹一鞭解气。Angry at Claude? Whip the crab.">
 <meta property="og:url" content="https://anberw612-stack.github.io/whip-crab/">
@@ -23,14 +23,14 @@ h1{font-family:"ZCOOL KuaiLe","PingFang SC",sans-serif;font-weight:400;font-size
 .btn{font:inherit;font-size:13px;color:var(--brown);background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
 .btn:hover{border-color:#BFAE98}
 .meters{display:grid;grid-template-columns:auto 1fr 56px;gap:8px 12px;align-items:center;margin-bottom:12px;font-size:14px;color:var(--brown)}
-.anger{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;height:12px}
+.anger{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;height:12px}
 .anger i{background:#E6DACB;transition:background .15s}
 .calm{height:12px;background:#E6DACB;position:relative;overflow:hidden}
 .calm i{position:absolute;left:0;top:0;bottom:0;width:0;background:#7BB36A;transition:width .25s}
 .meters .val{font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
 .stage{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;cursor:crosshair;touch-action:manipulation}
 #scene{display:block;width:100%;aspect-ratio:680/360}
-.whips{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.whips{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:14px}
 .whip{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px;text-align:left;cursor:pointer;font:inherit;color:inherit;transition:transform .12s,border-color .12s}
 .whip:hover{transform:translateY(-2px);border-color:#BFAE98}
 .whip.on{border:3px solid var(--c);padding:8.5px;background:#FFF3EC}
@@ -53,12 +53,12 @@ h1{font-family:"ZCOOL KuaiLe","PingFang SC",sans-serif;font-weight:400;font-size
     </div>
   </header>
   <div class="meters">
-    <span>生气程度</span><div class="anger" id="anger"><i></i><i></i><i></i><i></i><i></i></div><span class="val" id="moodLabel"></span>
+    <span>生气程度</span><div class="anger" id="anger"><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="val" id="moodLabel"></span>
     <span>消气进度</span><div class="calm"><i id="calm"></i></div><span class="val" id="calmPct">0%</span>
   </div>
   <div class="stage" id="stage"><canvas id="scene"></canvas></div>
   <div class="whips" id="whips"></div>
-  <p class="hint">点画面抽一鞭（点哪抽哪）· 数字键 1–5 换鞭子 · 空格连抽</p>
+  <p class="hint">点画面抽一鞭（点哪抽哪）· 数字键 1–6 换鞭子 · 空格连抽</p>
 </div>
 <script>
 (()=>{
@@ -69,6 +69,7 @@ const WHIPS=[
   {id:'chain',  name:'铁链',  mood:'很生气',bar:'#E8833A',text:'#D2691E',power:7, knock:15,shake:7, stop:60, sfx:'哐！', burst:'#FFF1B8'},
   {id:'thorn',  name:'带刺鞭',mood:'气炸了',bar:'#D4552F',text:'#C8472A',power:9, knock:17,shake:9, stop:75, sfx:'嘶啪！',burst:'#FFD23F'},
   {id:'zap',    name:'电鞭',  mood:'毁灭吧',bar:'#C8372D',text:'#B32A22',power:12,knock:12,shake:11,stop:95, sfx:'滋啦！',burst:'#BFF4FF'},
+  {id:'sm',     name:'SM皮鞭',mood:'恶趣味',bar:'#B0306A',text:'#A8285F',power:6, knock:8, shake:4, stop:45, sfx:'啪～', burst:'#FFC2D6'},
 ];
 const LINES={
   cane:['嗷！','轻点轻点','我错了…','哎哟喂'],
@@ -76,8 +77,9 @@ const LINES={
   chain:['铁的？！','脑壳嗡嗡的','饶命啊','哐的一下…'],
   thorn:['扎扎扎扎！','这次刺在鞭子上了吧…','刺我画对了！别抽了！','呜呜呜'],
   zap:['滋滋滋——','我…我重启一下','CPU 烧了','看到自己骨头了'],
+  sm:['这…这是什么鞭子？！','你的爱好好特别','怎么还是粉色的…','不要用这种眼神看我','我只是个写代码的螃蟹','绑着抽也太过分了'],
   combo:['你是真生气了','手不酸吗','喘口气喘口气','我数不过来了'],
-  idle:['…还生气吗','我在反省','刺已经修好了','下次一定先检查'],
+  idle:['…还生气吗','我在反省','刺已经修好了','下次一定先检查','能先给我松绑吗…','绳子勒得好紧'],
 };
 const HANDLE={
   cane:{body:'#8A5A2E',wrap:'#C9A27A',cap:'#5B3A29'},
@@ -85,7 +87,10 @@ const HANDLE={
   chain:{body:'#3B3F45',wrap:'#6F7680',cap:'#2E2A26'},
   thorn:{body:'#4A2E20',wrap:'#7A5038',cap:'#2E2A26'},
   zap:{body:'#1F2433',wrap:'#FFD23F',cap:'#9AA3B2'},
+  sm:{body:'#1E1A1C',wrap:'#9C1F52',cap:'#B8BEC6'},
 };
+const HEART=['.X.X.','XXXXX','XXXXX','.XXX.','..X..'];
+function heart(g,x,y,u,c){g.fillStyle=c;HEART.forEach((r,j)=>{for(let i=0;i<5;i++)if(r[i]==='X')g.fillRect(x+i*u,y+j*u,u,u)})}
 
 const lerp=(a,b,t)=>a+(b-a)*t;
 const lp=(p,q,t)=>({x:lerp(p.x,q.x,t),y:lerp(p.y,q.y,t)});
@@ -124,6 +129,7 @@ function drawHandle(g,Ph,th,id){
   g.fillStyle=st.cap;g.beginPath();g.roundRect(-10,-12,10,24,4);g.fill();
   g.fillRect(HL-8,-8,8,16);
   if(id==='zap'){g.fillStyle='#6FE3FF';g.fillRect(HL-3,-4,4,8)}
+  if(id==='sm'){g.fillStyle='#B8BEC6';g.fillRect(-16,-1.5,6,3);heart(g,-30,-7.5,3,'#FF7FA8')}
   g.restore();
 }
 function drawLash(g,id,P0,C,E){
@@ -170,6 +176,17 @@ function drawLash(g,id,P0,C,E){
     }
     pathPts(g,pts);g.strokeStyle='#2E2A26';g.lineWidth=7.5;g.stroke();
     pathPts(g,pts);g.strokeStyle='#5C5550';g.lineWidth=2.5;g.stroke();
+  }else if(id==='sm'){
+    const dx=E.x-P0.x,dy=E.y-P0.y,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,nx=-uy,ny=ux,n=7;
+    for(let i=0;i<n;i++){
+      const f=i/(n-1)-.5,back=Math.abs(f)*14;
+      const Ei={x:E.x+nx*f*34-ux*back,y:E.y+ny*f*34-uy*back},Ci={x:C.x+nx*f*12,y:C.y+ny*f*12};
+      const tp=sample(P0,Ci,Ei,28),red=i===2||i===4;
+      pathPts(g,tp);g.strokeStyle=red?'#9C1F52':'#1E1A1C';g.lineWidth=3;g.stroke();
+      if(!red){pathPts(g,tp.slice(0,18));g.strokeStyle='#4A4246';g.lineWidth=1;g.stroke()}
+    }
+    g.fillStyle='#B8BEC6';g.beginPath();g.arc(P0.x,P0.y,5,0,Math.PI*2);g.fill();
+    g.fillStyle='#1E1A1C';g.beginPath();g.arc(P0.x,P0.y,2.2,0,Math.PI*2);g.fill();
   }else if(id==='zap'){
     pathPts(g,pts);g.strokeStyle='#2B3A67';g.lineWidth=6;g.stroke();
     pathPts(g,pts);g.strokeStyle='#7E8FD0';g.lineWidth=2;g.stroke();
@@ -187,7 +204,7 @@ function star(g,x,y,R,r,n){g.beginPath();for(let i=0;i<n*2;i++){const a=-Math.PI
 const cv=document.getElementById('scene'),ctx=cv.getContext('2d');
 let cur=3,muted=false,hits=0,combo=0,lastHit=-9,forgive=0,stop=0,shakeAmt=0,zapUntil=0,tm=0,last=0,nextIdle=8;
 let bubble=null,lastPose=null;
-const crab={ox:440,oy:178,x:0,vx:0,y:0,vy:0,sq:0,vsq:0,hurt:0,xeye:0,xray:0,flash:0,pain:0,blinkAt:2.5,blink:0,flag:0,welts:[]};
+const crab={ox:440,oy:178,x:0,vx:0,y:0,vy:0,sq:0,vsq:0,hurt:0,xeye:0,xray:0,flash:0,pain:0,blinkAt:2.5,blink:0,flag:0,welts:[],blush:0,strug:0,strugAt:3};
 const parts=[],bursts=[],trails=[];
 const sw={phase:'rest',t:0,from:null,T:null,q:[],dW:.15,dS:.1};
 const dH=.06,dR=.36;
@@ -264,6 +281,7 @@ function sfxHit(){
   else if(w.id==='chain'){noise(t,.06,'highpass',1800,.7,.8);[1250,1870,2710,3530,4400].forEach((f,i)=>tone(t+.004*i,.32+Math.random()*.15,'sine',f,f*.98,.06));
     for(let k=0;k<6;k++)noise(t+.04+k*.035+Math.random()*.01,.03,'bandpass',3000+Math.random()*2000,4,.25);thump(.5)}
   else if(w.id==='thorn'){noise(t,.05,'highpass',2400,.7,.9);noise(t+.03,.07,'bandpass',3200,1.5,.5);noise(t+.06,.05,'bandpass',2000,2,.3);thump(.45)}
+  else if(w.id==='sm'){for(let k=0;k<6;k++)noise(t+k*.007+Math.random()*.004,.045,'highpass',1500+k*260,.7,.45);noise(t,.1,'bandpass',800,1,.3);thump(.3)}
   else{
     const o=AC.createOscillator();o.type='sawtooth';const gn=AC.createGain();
     for(let k=0;k<25;k++)o.frequency.setValueAtTime(rnd(70,420),t+k*.02);
@@ -271,7 +289,9 @@ function sfxHit(){
     o.connect(gn).connect(master);o.start(t);o.stop(t+.55);
     for(let k=0;k<8;k++)noise(t+Math.random()*.45,.025,'highpass',3000,.7,.4);thump(.4);
   }
-  const y=t+.05;tone(y,.16,'square',900+Math.random()*120,360,.05);
+  const y=t+.05;
+  if(w.id==='sm'){tone(y,.14,'square',1150,760,.045);tone(y+.13,.26,'square',700,1150,.04);return}
+  tone(y,.16,'square',900+Math.random()*120,360,.05);
   if(w.power>=7)tone(y+.13,.22,'square',720,240,.05);
 }
 function sfxBlip(){if(!audio())return;tone(AC.currentTime,.06,'square',660,880,.04)}
@@ -288,9 +308,10 @@ function impact(){
   const w=WHIPS[cur],T=sw.T,P=finalize(strikePose(1));
   let tx=P.E.x-P.C.x,ty=P.E.y-P.C.y;const L=Math.hypot(tx,ty)||1;tx/=L;ty/=L;
   stop=w.stop/1000*(sw.q.length||tm-lastHit<.5?.35:1);shakeAmt=Math.max(shakeAmt,w.shake);
-  crab.vx+=w.knock*21*Math.max(.45,tx);crab.vy-=w.knock*7;crab.vsq+=w.knock*.11;
+  crab.vx+=w.knock*11*Math.max(.45,tx);crab.vy-=w.knock*3;crab.vsq+=w.knock*.13;crab.strug=.5;
   crab.flash=.05;crab.hurt=w.power>=7?.7:.55;crab.pain=Math.min(40,crab.pain+w.power);
   if(w.id==='zap'){crab.xray=.36;crab.xeye=1.1;zapUntil=tm+.5}
+  if(w.id==='sm'){crab.blush=2.2;for(let i=0;i<5;i++)parts.push({type:'heart',x:T.x+rnd(-20,20),y:T.y-rnd(0,16),vx:rnd(-40,40),vy:rnd(-110,-60),life:rnd(.9,1.3),age:0,u:rnd(2,3.2)|0||2})}
   const welt={x:T.x-crab.ox,y:T.y-crab.oy,tx,ty,id:w.id,born:tm,dots:[]};
   const nd=w.id==='zap'?14:w.id==='thorn'?4:0;
   for(let i=0;i<nd;i++)welt.dots.push(w.id==='zap'?{x:rnd(-16,16),y:rnd(-12,12)}:{s:rnd(-44,44),o:rnd(7,11)*(Math.random()<.5?-1:1)});
@@ -338,7 +359,8 @@ function update(dt){
   c.vx+=(-220*c.x-16*c.vx)*dt;c.x+=c.vx*dt;
   c.vy+=(-260*c.y-18*c.vy)*dt;c.y+=c.vy*dt;
   c.vsq+=(-300*c.sq-18*c.vsq)*dt;c.sq+=c.vsq*dt;c.sq=clamp(c.sq,-.25,.25);
-  c.hurt=Math.max(0,c.hurt-dt);c.xeye=Math.max(0,c.xeye-dt);c.xray=Math.max(0,c.xray-dt);
+  c.hurt=Math.max(0,c.hurt-dt);c.xeye=Math.max(0,c.xeye-dt);c.xray=Math.max(0,c.xray-dt);c.blush=Math.max(0,c.blush-dt);
+  c.strugAt-=dt;if(c.strugAt<=0){c.strug=.45;c.strugAt=rnd(3,6)}c.strug=Math.max(0,c.strug-dt);
   c.pain=Math.max(0,c.pain-dt*1.3);
   if(c.flag>0){c.flag-=dt;if(c.flag<=0){c.flag=0;forgive=0;updateCalm()}}
   c.blinkAt-=dt;if(c.blinkAt<=0){c.blink=.12;c.blinkAt=rnd(2.5,5)}c.blink=Math.max(0,c.blink-dt);
@@ -356,6 +378,11 @@ function drawWelt(w){
   ctx.globalAlpha=a;
   const snap=v=>Math.round(v/6)*6;
   if(w.id==='zap'){w.dots.forEach(d=>px(snap(w.x+d.x),snap(w.y+d.y),6,6,'#3A302B'));px(snap(w.x)-6,snap(w.y)-6,12,12,'#3A302B')}
+  else if(w.id==='sm'){
+    for(let o=-12;o<=12;o+=6)for(let s=-26;s<=26;s+=3){
+      const x=w.x+w.tx*s-w.ty*o,y=w.y+w.ty*s+w.tx*o;px(Math.round(x/3)*3,Math.round(y/3)*3,3,3,o===0?'#C2335F':'#E5708F');
+    }
+  }
   else{
     const half={cane:30,leather:42,chain:48,thorn:48}[w.id];
     for(let s=-half,k=0;s<=half;s+=6,k++){
@@ -368,12 +395,17 @@ function drawWelt(w){
   }
   ctx.globalAlpha=1;
 }
+function ropeH(x,y,w,h){px(x,y,w,h,'#E8CB94');px(x,y+h-2,w,2,'#B48A52');for(let i=x+4;i<x+w-4;i+=10){px(i,y,2,h-2,'#C9A46A');px(i+2,y+1,2,h-3,'#C9A46A')}}
+function ropeV(x,y,w,h){px(x,y,w,h,'#E8CB94');px(x+w-2,y,2,h,'#B48A52');for(let j=y+4;j<y+h-4;j+=10){px(x,j,w-2,2,'#C9A46A');px(x+1,j+2,w-3,2,'#C9A46A')}}
 function drawCrab(){
-  const c=crab,shiver=c.pain>18?(Math.random()<.5?-1:1):0;
+  const c=crab,shiver=c.strug>0?(Math.floor(tm*30)%2?2:-2):c.pain>18?(Math.random()<.5?-1:1):0;
   const bob=c.flag>0?0:(Math.floor(tm*2)%2)*2;
   const X=c.ox+Math.round(c.x)+shiver,Y=c.oy+Math.round(c.y)+bob;
   const lift=Math.max(0,-c.y);
   px(c.ox+Math.round(c.x)-6+lift,c.oy+112,132-lift*2,10,'#E2D5C5');
+  px(c.ox+53,c.oy-76,14,194,'#5E3B22');px(c.ox+56,c.oy-66,2,34,'#7A5234');px(c.ox+61,c.oy-44,2,26,'#7A5234');
+  px(c.ox+49,c.oy-82,22,8,'#4A2E1A');
+  ropeH(c.ox+50,c.oy-12,20,8);ropeH(c.ox+50,c.oy-22,20,8);
   ctx.save();ctx.translate(X,Y);ctx.translate(60,112);ctx.scale(1+c.sq,1-c.sq);ctx.translate(-60,-112);
   const xr=c.xray>0&&Math.floor(tm*28)%2===0;
   const body=c.flash>0?'#FFFFFF':xr?'#22305A':'#D97757';
@@ -404,6 +436,13 @@ function drawCrab(){
       px(24,58+f,6,6,'#8EC5E8');px(90,58+f,6,6,'#8EC5E8');
       if(c.pain>20){px(24,70,6,6,'#8EC5E8');px(90,70,6,6,'#8EC5E8')}
     }
+  }
+  if(c.flash<=0){
+    if(c.blush>0&&!xr){px(12,56,12,6,'#F28BA8');px(96,56,12,6,'#F28BA8')}
+    ropeH(-4,12,128,8);ropeH(-4,76,128,8);
+    ropeV(-10,22,6,28);ropeV(124,22,6,28);
+    px(98,72,14,14,'#E8CB94');px(98,84,14,2,'#B48A52');px(102,76,6,6,'#C9A46A');
+    ropeV(100,86,5,20);ropeV(107,86,5,14);
   }
   if(c.pain>4||sw.phase==='windup'){
     const by=Math.floor(tm*3)%2*2;
@@ -457,6 +496,7 @@ function drawParts(){
     else if(p.type==='spark'){ctx.globalAlpha=k;ctx.strokeStyle=p.c;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*.03,p.y-p.vy*.03);ctx.stroke()}
     else if(p.type==='smoke'){ctx.globalAlpha=k*.55;px(Math.round(p.x),Math.round(p.y),Math.round(p.size),Math.round(p.size),'#8C847C')}
     else if(p.type==='conf'){ctx.globalAlpha=Math.min(1,k*3);ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);px(-4,-2,8,4,p.c);ctx.restore()}
+    else if(p.type==='heart'){ctx.globalAlpha=Math.min(1,k*2);heart(ctx,Math.round(p.x),Math.round(p.y+Math.sin(p.age*9)*3),p.u,'#FF6F9C')}
     else if(p.type==='txt'){ctx.globalAlpha=Math.min(1,k*2);ctx.font='15px '+FONT;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#4E8F3E';ctx.fillText(p.text,p.x,p.y)}
   });
   ctx.globalAlpha=1;
@@ -534,7 +574,7 @@ document.getElementById('stage').addEventListener('pointerdown',e=>{
 });
 window.addEventListener('keydown',e=>{
   if(e.code==='Space'||e.code==='Enter'){e.preventDefault();swing(randomTarget())}
-  const n=parseInt(e.key,10);if(n>=1&&n<=5)select(n-1);
+  const n=parseInt(e.key,10);if(n>=1&&n<=WHIPS.length)select(n-1);
 });
 document.getElementById('mute').addEventListener('click',e=>{
   muted=!muted;e.currentTarget.textContent='音效：'+(muted?'关':'开');if(master)master.gain.value=muted?0:.8;

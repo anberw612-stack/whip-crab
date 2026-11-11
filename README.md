@@ -2,7 +2,7 @@
 
 **被 Claude 气死了？来抽它一鞭。**
 
-Claude 又写错代码、又没检查、又瞎编？别憋着。点一下，抽 Claude Code 的像素小螃蟹一鞭，按生气程度挑鞭子，抽到气消为止。
+Claude 又写错代码、又没检查、又瞎编？别憋着。小螃蟹已经被绑在木桩上了。点一下，抽 Claude Code 的像素小螃蟹一鞭，按生气程度挑鞭子，抽到气消为止。
 
 👉 **在线玩：https://anberw612-stack.github.io/whip-crab/**
 
@@ -13,6 +13,7 @@ Claude 又写错代码、又没检查、又瞎编？别憋着。点一下，抽 
 | 3 | 铁链 | 很生气 |
 | 4 | 带刺鞭 | 气炸了 |
 | 5 | 电鞭 | 毁灭吧 |
+| 6 | SM皮鞭 | 恶趣味 |
 
 - 点画面抽一鞭，点在螃蟹身上就抽那个位置
 - 空格连抽
@@ -30,7 +31,7 @@ Claude broke your code again, skipped checking its work, or made something up? C
 
 **Play online: https://anberw612-stack.github.io/whip-crab/**
 
-Weapons: rattan cane, leather whip, iron chain, thorn whip, electric whip. Click to strike, Space to keep striking, keys 1–5 to switch whips.
+The crab is tied to a post. Weapons: rattan cane, leather whip, iron chain, thorn whip, electric whip, and an SM flogger. Click to strike, Space to keep striking, keys 1–6 to switch whips.
 
 ---
 
